@@ -42,9 +42,18 @@ namespace WebApiExample.Repositories
 
         public Person Update(int id, Person person)
         {
-            _context.Update(person);
-            _context.SaveChanges();
-            return person;
+            //_context.Update(person);
+            //_context.SaveChanges();
+            //return person;
+            var savedPerson = Read(id);
+            if (savedPerson == null)
+                throw new Exception("Person not found");
+            else
+            {
+                _context.Update(person);
+                _context.SaveChanges();
+                return person;
+            }
         }
 
         public void Delete(int id)
