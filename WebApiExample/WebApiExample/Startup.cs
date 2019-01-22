@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using WebApiExample.Models;
 using WebApiExample.Repositories;
+using WebApiExample.Services;
 
 namespace WebApiExample
 {
@@ -28,6 +29,7 @@ namespace WebApiExample
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IPersonRepository, PersonRepository>();
+            services.AddScoped<IPersonService, PersonService>();
             services.AddDbContext<BackenddbContext>(opt =>
                 {
                     opt.UseSqlServer(Configuration.GetConnectionString("LocalPersonDBContext"));

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApiExample.Models;
 using WebApiExample.Repositories;
+using WebApiExample.Services;
 
 namespace WebApiExample.Controllers
 {
@@ -13,18 +14,18 @@ namespace WebApiExample.Controllers
     [ApiController]
     public class PersonsController : ControllerBase
     {
-        private readonly IPersonRepository _personRepository;
+        private readonly IPersonService _personService;
 
-        public PersonsController(IPersonRepository personRepository)
+        public PersonsController(IPersonService personService)
         {
-            _personRepository = personRepository;
+            _personService = personService;
         }
 
         // GET api/values
         [HttpGet]
         public ActionResult<List<Person>> GetPersons()
         {
-            var persons = _personRepository.Read();
+            var persons = _personService.Read();
                 return new JsonResult(persons);
                
         }
@@ -35,7 +36,7 @@ namespace WebApiExample.Controllers
         public ActionResult<Person> Get(int id)
 
         {  ;
-            var person = _personRepository.Read(id);
+            var person = _personService.Read(id);
             return new JsonResult(person);
         }
 
@@ -44,15 +45,15 @@ namespace WebApiExample.Controllers
 
         public ActionResult<Person> Post(Person person)
         {
-            var newPerson = _personRepository.Create(person);
-            return new JsonResult(newPerson);
+            _personService.Create(person);
+            return new JsonResult(person);
         }
 
         // DELETE
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            _personRepository.Delete(id);
+            _personService.Delete(id);
             return new OkResult();
         }
 
@@ -61,7 +62,7 @@ namespace WebApiExample.Controllers
         [HttpPut("{id}")]
         public IActionResult Update(int id, Person person)
         {
-            Person updatedContact = _personRepository.Update(id, person);
+            Person updatedContact = _personService.Update(id, person);
             return new JsonResult(updatedContact);
 
         }

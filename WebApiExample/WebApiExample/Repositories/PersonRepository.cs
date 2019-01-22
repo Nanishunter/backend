@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using WebApiExample.Models;
+using WebApiExample.Services;
+
 namespace WebApiExample.Repositories
 {
     public class PersonRepository: IPersonRepository
@@ -19,9 +21,12 @@ namespace WebApiExample.Repositories
 
         public Person Create(Person person)
         {
+
+           
             _context.Add(person);
             _context.SaveChanges();
             return person;
+            
         }
 
         public List<Person> Read()
